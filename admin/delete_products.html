@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Products | Cartify Admin</title>
+    <link rel="stylesheet" href="delete_products.css">
+</head>
+
+<body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h2><i class="icon-trash"></i> Delete Products</h2>
+            <a href="add_post.php" class="add-btn">
+                <i class="icon-plus"></i> Add Product
+            </a>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="filters">
+            <div class="search-box">
+                <i class="icon-search"></i>
+                <input type="text" id="searchInput" placeholder="Search products...">
+            </div>
+            <select id="categoryFilter" class="filter-select">
+                <option value="">All Categories</option>
+                <option value="fashion">Fashion</option>
+                <option value="electronics">Electronics</option>
+                <option value="beauty">Beauty</option>
+                <option value="home">Home</option>
+                <option value="sports">Sports</option>
+                <option value="mobile">Mobile Phones</option>
+                <option value="laptops">Laptops</option>
+            </select>
+        </div>
+
+        <!-- Products Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>SKU</th>
+                        <th>Brand</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="productTable">
+                    <tr>
+                        <td colspan="10" class="loading-cell">
+                            <i class="icon-spinner"></i>
+                            Loading products...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Confirmation Modal -->
+        <div class="modal" id="confirmModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="icon-warning"></i> Confirm Delete</h3>
+                    <button class="modal-close" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete <strong id="productName"></strong>?</p>
+                    <p class="warning">This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                    <button class="btn-delete" id="confirmDeleteBtn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentProductId = null;
+        let allProducts = [];
+
+        function showLoading(show) {
+            document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
+        }
+
+        function loadProducts(category = "", search = "") {
+            showLoading(true);
+            let url = "get_products.php";
+            if (category) {
+                url += "?category=" + encodeURIComponent(category);
+            }
+
+            fetch(url)
+                .then(res => {
+                    if (!res.ok) throw new Error('Network response was not ok');
+                    return res.json();
+                })
+                .then(data => {
+                    showLoading(false);
+                    if (data.error) {
+                        showError(data.error);
+                        return;
+                    }
+                    allProducts = data;
+                    filterAndDisplayProducts(search);
+                })
+                .catch(error => {
+                    showLoading(false);
+                    showError('Failed to load products: ' + error.message);
+                });
+        }
+
+        function filterAndDisplayProducts(search = "") {
+            let table = document.getElementById("productTable");
+
+            if (allProducts.length === 0) {
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="10" class="empty-cell">
+                            <i class="icon-box"></i>
+                            No products found
+                        </td>
+                    </tr>`;
+                return;
+            }
+
+            let filteredProducts = allProducts;
+            if (search) {
+                const searchLower = search.toLowerCase();
+                filteredProducts = allProducts.filter(p =>
+                    p.product_name.toLowerCase().includes(searchLower) ||
+                    (p.category && p.category.toLowerCase().includes(searchLower)) ||
+                    (p.brand && p.brand.toLowerCase().includes(searchLower))
+                );
+            }
+
+            if (filteredProducts.length === 0) {
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="10" class="empty-cell">
+                            <i class="icon-search"></i>
+                            No products match your search
+                        </td>
+                    </tr>`;
+                return;
+            }
+
+            table.innerHTML = filteredProducts.map((p) => {
+                const imageSrc = p.image ? `uploads/${p.image}` : '';
+                const stockClass = p.stock > 0 ? (p.stock < 10 ? 'low-stock' : 'in-stock') : 'out-stock';
+                const statusClass = p.status === 'active' ? 'status-active' : 
+                                  p.status === 'inactive' ? 'status-inactive' : 'status-draft';
+
+                return `
+                <tr>
+                    <td>${p.id}</td>
+                    <td class="image-cell">
+                        ${imageSrc ? `<img src="${imageSrc}" class="product-img">` : '<div class="no-img"><i class="icon-image"></i></div>'}
+                    </td>
+                    <td class="name-cell">${p.product_name}</td>
+                    <td>${p.sku || '-'}</td>
+                    <td>${p.brand || '-'}</td>
+                    <td><span class="category">${p.category || '-'}</span></td>
+                    <td class="price">₹${parseFloat(p.product_price || 0).toFixed(2)}</td>
+                    <td><span class="stock ${stockClass}">${p.stock ?? 0}</span></td>
+                    <td><span class="status ${statusClass}">${p.status}</span></td>
+                    <td>
+                        <button class="delete-btn" onclick="confirmDelete(${p.id}, '${p.product_name.replace(/'/g, "\\'")}')">
+                            <i class="icon-trash"></i>
+                        </button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        function confirmDelete(id, name) {
+            currentProductId = id;
+            document.getElementById('productName').textContent = name;
+            document.getElementById('confirmModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('confirmModal').style.display = 'none';
+        }
+
+        function deleteProduct() {
+            if (!currentProductId) return;
+            showLoading(true);
+
+            fetch(`delete_product.php?id=${currentProductId}`)
+                .then(res => res.json())
+                .then(data => {
+                    showLoading(false);
+                    if (data.success) {
+                        alert(data.message);
+                        closeModal();
+                        const category = document.getElementById('categoryFilter').value;
+                        const search = document.getElementById('searchInput').value;
+                        loadProducts(category, search);
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    showLoading(false);
+                    alert('Failed to delete product: ' + error.message);
+                });
+        }
+
+        function showError(message) {
+            document.getElementById("productTable").innerHTML = `
+                <tr>
+                    <td colspan="10" class="error-cell">
+                        <i class="icon-error"></i>
+                        ${message}
+                        <button class="retry-btn" onclick="loadProducts()">
+                            <i class="icon-refresh"></i> Try Again
+                        </button>
+                    </td>
+                </tr>`;
+        }
+
+        // Event Listeners
+        document.getElementById('categoryFilter').addEventListener('change', function() {
+            const search = document.getElementById('searchInput').value;
+            loadProducts(this.value, search);
+        });
+
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const category = document.getElementById('categoryFilter').value;
+            filterAndDisplayProducts(this.value);
+        });
+
+        document.getElementById('confirmDeleteBtn').addEventListener('click', deleteProduct);
+
+        // Initial load
+        loadProducts();
+    </script>
+</body>
+</html>

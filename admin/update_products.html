@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Update Products | Cartify</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="update_products_style.css">
+    
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <div class="header">
+            <div class="header-left">
+                <h1><i class="fas fa-edit"></i> Update Products</h1>
+                <p>Manage and edit your product catalog</p>
+            </div>
+            <div class="header-right">
+                <a href="add_post.php" class="add-btn">
+                    <i class="fas fa-plus"></i> Add Product
+                </a>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter-group">
+                <i class="fas fa-filter"></i>
+                <select id="categoryFilter" class="filter-select">
+                    <option value="">All Categories</option>
+                    <option value="fashion">Fashion</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="beauty">Beauty</option>
+                    <option value="home">Home</option>
+                    <option value="sports">Sports</option>
+                </select>
+            </div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search products...">
+            </div>
+        </div>
+
+        <div class="products-container">
+            <div class="table-header">
+                <div class="header-cell">ID</div>
+                <div class="header-cell">Image</div>
+                <div class="header-cell">Name</div>
+                <div class="header-cell">SKU</div>
+                <div class="header-cell">Brand</div>
+                <div class="header-cell">Category</div>
+                <div class="header-cell">Price</div>
+                <div class="header-cell">Discount</div>
+                <div class="header-cell">Stock</div>
+                <div class="header-cell">Sold</div>
+                <div class="header-cell">Status</div>
+                <div class="header-cell">Action</div>
+            </div>
+
+            <div class="table-body" id="productTable">
+                <div class="loading-row">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading products...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function loadProducts(category = "") {
+        fetch("get_products.php?category=" + encodeURIComponent(category))
+        .then(res => {
+            if (!res.ok) throw new Error('Network response was not ok');
+            return res.json();
+        })
+        .then(data => {
+            let container = document.getElementById("productTable");
+            
+            if (data.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-row">
+                        <i class="fas fa-box-open"></i>
+                        <p>No products found</p>
+                    </div>`;
+                return;
+            }
+            
+            if (data.error) {
+                container.innerHTML = `
+                    <div class="error-row">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>${data.error}</p>
+                    </div>`;
+                return;
+            }
+            
+            displayProducts(data, "");
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById("productTable").innerHTML = `
+                <div class="error-row">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <p>Failed to load products: ${error.message}</p>
+                </div>`;
+        });
+    }
+
+    function displayProducts(products, search = "") {
+        let container = document.getElementById("productTable");
+        
+        if (search) {
+            const searchLower = search.toLowerCase();
+            products = products.filter(p => 
+                (p.product_name && p.product_name.toLowerCase().includes(searchLower)) ||
+                (p.category && p.category.toLowerCase().includes(searchLower)) ||
+                (p.brand && p.brand.toLowerCase().includes(searchLower))
+            );
+        }
+
+        if (products.length === 0) {
+            container.innerHTML = `
+                <div class="empty-row">
+                    <i class="fas fa-search"></i>
+                    <p>No products match your search</p>
+                </div>`;
+            return;
+        }
+
+        container.innerHTML = products.map(p => {
+            const imageSrc = p.image ? `uploads/${p.image}` : '';
+            const statusClass = p.status === 'active' ? 'status-active' : 
+                              p.status === 'inactive' ? 'status-inactive' : 'status-draft';
+            
+            return `
+            <div class="product-row">
+                <div class="data-cell">${p.id || '-'}</div>
+                <div class="data-cell img-cell">
+                    ${imageSrc ? `<img src="${imageSrc}" alt="${p.product_name}">` : 
+                      `<div class="no-img"><i class="fas fa-image"></i></div>`}
+                </div>
+                <div class="data-cell name-cell">${p.product_name || '-'}</div>
+                <div class="data-cell sku-cell">${p.sku || '-'}</div>
+                <div class="data-cell">${p.brand || '-'}</div>
+                <div class="data-cell"><span class="category">${p.category || '-'}</span></div>
+                <div class="data-cell price-cell">₹${parseFloat(p.product_price || 0).toFixed(2)}</div>
+                <div class="data-cell">${p.discount_price ? `₹${parseFloat(p.discount_price).toFixed(2)}` : '-'}</div>
+                <div class="data-cell">
+                    <span class="stock ${p.stock > 0 ? (p.stock < 10 ? 'low' : 'in') : 'out'}">
+                        ${p.stock || 0}
+                    </span>
+                </div>
+                <div class="data-cell">${p.sold_count || 0}</div>
+                <div class="data-cell"><span class="status ${statusClass}">${p.status || '-'}</span></div>
+                <div class="data-cell">
+                    <a href="update_product.php?id=${p.id}" class="update-btn">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    document.getElementById("categoryFilter").addEventListener("change", function() {
+        loadProducts(this.value);
+    });
+
+    document.getElementById("searchInput").addEventListener("input", function() {
+        const category = document.getElementById("categoryFilter").value;
+        if (category) {
+            loadProducts(category);
+        } else {
+            loadProducts("");
+        }
+    });
+
+    loadProducts();
+    </script>
+</body>
+</html>

@@ -1,0 +1,544 @@
+/* admindash.css */
+/* Dark Green, Green, and Beige White Color Palette */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5f5f0; /* Beige white background */
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navigation */
+.navbar {
+    background: linear-gradient(135deg, #1a472a 0%, #2e7d32 100%); /* Dark green to green gradient */
+    padding: 0.8rem 2rem;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.brand-section {
+    display: flex;
+    align-items: center;
+}
+
+.nav-brand {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #f5f5f0; /* Beige white text */
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-brand i {
+    color: #a5d6a7; /* Light green icon */
+    font-size: 1.8rem;
+}
+
+.admin-section {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.admin-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #f5f5f0; /* Beige white text */
+}
+
+.admin-info i {
+    color: #a5d6a7; /* Light green icon */
+    font-size: 1.3rem;
+}
+
+.admin-greeting {
+    font-weight: 500;
+    color: #f5f5f0; /* Beige white text */
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    color: #f5f5f0; /* Beige white text */
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.nav-link.logout {
+    background-color: rgba(76, 175, 80, 0.9); /* Green background */
+}
+
+.nav-link.logout:hover {
+    background-color: #388e3c; /* Darker green on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nav-link.user-panel {
+    background-color: rgba(56, 142, 60, 0.9); /* Dark green background */
+}
+
+.nav-link.user-panel:hover {
+    background-color: #2e7d32; /* Even darker green on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Main Dashboard */
+.main-container {
+    flex: 1;
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    width: 100%;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: #ffffff; /* White background */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e8f5e9; /* Light green border */
+}
+
+.dashboard-header h1 {
+    font-size: 2.5rem;
+    color: #1a472a; /* Dark green text */
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.dashboard-subtitle {
+    color: #4caf50; /* Green text */
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+/* Dashboard Options */
+.dashboard-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 3rem;
+}
+
+.secondary-options {
+    margin-top: 2rem;
+}
+
+.option-card {
+    background: #ffffff; /* White background */
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.option-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.create-post {
+    border-top: 5px solid #388e3c; /* Dark green border */
+}
+
+.create-post:hover {
+    border-color: #388e3c;
+}
+
+.update-post {
+    border-top: 5px solid #4caf50; /* Green border */
+}
+
+.update-post:hover {
+    border-color: #4caf50;
+}
+
+.see-posts {
+    border-top: 5px solid #81c784; /* Light green border */
+}
+
+.see-posts:hover {
+    border-color: #81c784;
+}
+
+.delete-post {
+    border-top: 5px solid #1b5e20; /* Very dark green border */
+}
+
+.delete-post:hover {
+    border-color: #1b5e20;
+}
+
+.manage-orders {
+    border-top: 5px solid #66bb6a; /* Medium green border */
+}
+
+.manage-orders:hover {
+    border-color: #66bb6a;
+}
+
+.manage-users {
+    border-top: 5px solid #43a047; /* Bright green border */
+}
+
+.manage-users:hover {
+    border-color: #43a047;
+}
+
+.analytics {
+    border-top: 5px solid #2e7d32; /* Dark green border */
+}
+
+.analytics:hover {
+    border-color: #2e7d32;
+}
+
+.settings {
+    border-top: 5px solid #a5d6a7; /* Very light green border */
+}
+
+.settings:hover {
+    border-color: #a5d6a7;
+}
+
+.option-icon {
+    font-size: 2.8rem;
+    margin-bottom: 1.2rem;
+    height: 80px;
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-bottom: 1.5rem;
+}
+
+.create-post .option-icon {
+    background-color: rgba(56, 142, 60, 0.1); /* Dark green with opacity */
+    color: #388e3c; /* Dark green */
+}
+
+.update-post .option-icon {
+    background-color: rgba(76, 175, 80, 0.1); /* Green with opacity */
+    color: #4caf50; /* Green */
+}
+
+.see-posts .option-icon {
+    background-color: rgba(129, 199, 132, 0.1); /* Light green with opacity */
+    color: #81c784; /* Light green */
+}
+
+.delete-post .option-icon {
+    background-color: rgba(27, 94, 32, 0.1); /* Very dark green with opacity */
+    color: #1b5e20; /* Very dark green */
+}
+
+.manage-orders .option-icon {
+    background-color: rgba(102, 187, 106, 0.1); /* Medium green with opacity */
+    color: #66bb6a; /* Medium green */
+}
+
+.manage-users .option-icon {
+    background-color: rgba(67, 160, 71, 0.1); /* Bright green with opacity */
+    color: #43a047; /* Bright green */
+}
+
+.analytics .option-icon {
+    background-color: rgba(46, 125, 50, 0.1); /* Dark green with opacity */
+    color: #2e7d32; /* Dark green */
+}
+
+.settings .option-icon {
+    background-color: rgba(165, 214, 167, 0.1); /* Very light green with opacity */
+    color: #a5d6a7; /* Very light green */
+}
+
+.option-title {
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+    color: #1a472a; /* Dark green text */
+    font-weight: 600;
+}
+
+.option-description {
+    color: #4caf50; /* Green text */
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    flex-grow: 1;
+}
+
+.option-link {
+    color: #1a472a; /* Dark green text */
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    border-radius: 25px;
+    background-color: #f5f5f0; /* Beige white background */
+    transition: all 0.3s ease;
+    display: inline-block;
+    border: 1px solid #c8e6c9; /* Light green border */
+}
+
+.create-post:hover .option-link {
+    background-color: #388e3c; /* Dark green */
+    color: #f5f5f0; /* Beige white text */
+    border-color: #388e3c;
+}
+
+.update-post:hover .option-link {
+    background-color: #4caf50; /* Green */
+    color: #f5f5f0; /* Beige white text */
+    border-color: #4caf50;
+}
+
+.see-posts:hover .option-link {
+    background-color: #81c784; /* Light green */
+    color: #1a472a; /* Dark green text */
+    border-color: #81c784;
+}
+
+.delete-post:hover .option-link {
+    background-color: #1b5e20; /* Very dark green */
+    color: #f5f5f0; /* Beige white text */
+    border-color: #1b5e20;
+}
+
+.manage-orders:hover .option-link {
+    background-color: #66bb6a; /* Medium green */
+    color: #1a472a; /* Dark green text */
+    border-color: #66bb6a;
+}
+
+.manage-users:hover .option-link {
+    background-color: #43a047; /* Bright green */
+    color: #f5f5f0; /* Beige white text */
+    border-color: #43a047;
+}
+
+.analytics:hover .option-link {
+    background-color: #2e7d32; /* Dark green */
+    color: #f5f5f0; /* Beige white text */
+    border-color: #2e7d32;
+}
+
+.settings:hover .option-link {
+    background-color: #a5d6a7; /* Very light green */
+    color: #1a472a; /* Dark green text */
+    border-color: #a5d6a7;
+}
+
+/* Stats Section */
+.stats-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+    margin-top: 3rem;
+}
+
+.stat-card {
+    background: #ffffff; /* White background */
+    border-radius: 10px;
+    padding: 1.8rem;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid #e8f5e9; /* Light green border */
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-color: #4caf50; /* Green border on hover */
+}
+
+.stat-icon {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    color: #4caf50; /* Green icon */
+    height: 60px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(76, 175, 80, 0.1); /* Green with opacity */
+    margin: 0 auto 1rem;
+}
+
+.stat-card:nth-child(2) .stat-icon {
+    color: #388e3c; /* Dark green icon */
+    background-color: rgba(56, 142, 60, 0.1); /* Dark green with opacity */
+}
+
+.stat-card:nth-child(3) .stat-icon {
+    color: #81c784; /* Light green icon */
+    background-color: rgba(129, 199, 132, 0.1); /* Light green with opacity */
+}
+
+.stat-card:nth-child(4) .stat-icon {
+    color: #1b5e20; /* Very dark green icon */
+    background-color: rgba(27, 94, 32, 0.1); /* Very dark green with opacity */
+}
+
+.stat-card h4 {
+    color: #4caf50; /* Green text */
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-number {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #1a472a; /* Dark green text */
+    margin-bottom: 0.5rem;
+}
+
+.stat-change {
+    color: #388e3c; /* Dark green text */
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.stat-change i {
+    margin-right: 5px;
+}
+
+/* Footer */
+.footer {
+    background: linear-gradient(135deg, #1a472a 0%, #2e7d32 100%); /* Dark green to green gradient */
+    padding: 1.8rem;
+    text-align: center;
+    margin-top: 4rem;
+    color: #f5f5f0; /* Beige white text */
+}
+
+.footer p {
+    margin-bottom: 0.8rem;
+    color: #f5f5f0; /* Beige white text */
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: #a5d6a7; /* Light green text */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #ffffff; /* White on hover */
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .dashboard-options {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem 0;
+    }
+    
+    .admin-section {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+        width: 100%;
+    }
+    
+    .nav-links {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .dashboard-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .dashboard-header h1 {
+        font-size: 2rem;
+    }
+    
+    .main-container {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .option-card {
+        padding: 1.5rem;
+    }
+    
+    .navbar {
+        padding: 0.8rem 1rem;
+    }
+    
+    .footer-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

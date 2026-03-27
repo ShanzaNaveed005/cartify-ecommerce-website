@@ -1,0 +1,318 @@
+/* login_choice.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #FFFBF0;
+    background-image: linear-gradient(135deg, #FFFBF0 0%, #ffecd7 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('uploads/girl.png');
+    background-size: contain;
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    opacity: 0.15;
+    z-index: -1;
+}
+
+/* Main Container */
+.login-choice-container {
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(46, 125, 50, 0.15);
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    border: 1px solid #F5F5DC;
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.login-choice-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to right, #2E7D32, #4CAF50);
+}
+
+/* Header */
+.login-header {
+    margin-bottom: 30px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.logo-icon {
+    background: linear-gradient(135deg, #2E7D32, #4CAF50);
+    color: #FFFFFF;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+}
+
+.logo-text {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1B5E20;
+}
+
+.logo-text span {
+    color: #8D6E63;
+}
+
+.login-title {
+    color: #5D4037;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.login-subtitle {
+    color: #8D6E63;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+/* Login Options */
+.login-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.login-option-btn {
+    background: #ffecd7;
+    border: 2px solid transparent;
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #5D4037;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.login-option-btn:hover {
+    background: #2E7D32;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(46, 125, 50, 0.2);
+}
+
+.login-option-btn:active {
+    transform: translateY(0);
+}
+
+.login-option-btn i {
+    font-size: 18px;
+}
+
+.login-option-btn.user-btn {
+    background: linear-gradient(to right, #ffecd7, #FFFBF0);
+    border: 2px solid #2E7D32;
+}
+
+.login-option-btn.admin-btn {
+    background: linear-gradient(to right, #FFFBF0, #ffecd7);
+    border: 2px solid #8D6E63;
+}
+
+.login-option-btn.user-btn:hover {
+    background: linear-gradient(to right, #2E7D32, #4CAF50);
+    border-color: #2E7D32;
+}
+
+.login-option-btn.admin-btn:hover {
+    background: linear-gradient(to right, #8D6E63, #A1887F);
+    border-color: #8D6E63;
+}
+
+/* Admin Login Form */
+.admin-login-form {
+    background: #F9F5F0;
+    border-radius: 15px;
+    padding: 25px;
+    margin-top: 20px;
+    border: 2px solid #F5F5DC;
+    animation: slideDown 0.3s ease-out;
+}
+
+.form-title {
+    color: #5D4037;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-label {
+    display: block;
+    color: #5D4037;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.form-label i {
+    color: #2E7D32;
+    margin-right: 8px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #F5F5DC;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.3s;
+    background: #FFFFFF;
+    color: #5D4037;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #2E7D32;
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+.form-input::placeholder {
+    color: #BCAAA4;
+}
+
+.submit-btn {
+    background: linear-gradient(to right, #2E7D32, #4CAF50);
+    color: #FFFFFF;
+    border: none;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background: linear-gradient(to right, #1B5E20, #2E7D32);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(46, 125, 50, 0.3);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+/* Error Message */
+.error-message {
+    background: #F8D7DA;
+    color: #721C24;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #F5C6CB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    animation: shake 0.5s ease-in-out;
+}
+
+.error-message i {
+    font-size: 18px;
+}
+
+.retry-btn {
+    background: #F5F5DC;
+    color: #2E7D32;
+    border: 2px solid #2E7D32;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.retry-btn:hover {
+    background: #2E7D32;
+    color: #FFFFFF;
+}
+
+/* Footer */
+.login-footer {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #F5F5DC;
+    color: #8D6E63;
+    font-size: 13px;
+}
+
+.security-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.security-note i {
+    color: #2E7D32;
+}
+

@@ -1,0 +1,86 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Layout ko kharab hone se bachata hai */
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.hero {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    background: #000; /* Video load hone se pehle black screen dikhegi */
+}
+
+/* --- Video ko Dim (Dark) karne ke liye Overlay --- */
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* 0.5 ko 0.7 tak kar sakti hain agar aur dark chahiye */
+    z-index: 1; /* Video ke upar */
+}
+
+.back-video {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 0; /* Sabse piche */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+            filter: brightness(0.6);
+}
+
+.content {
+    text-align: center;
+    color: #F5F5DC; /* Slogan/Text ke liye Beige color */
+    z-index: 2; /* Overlay se upar takay text nazar ay */
+    position: relative;
+}
+
+.content h1 {
+    font-size: 80px;
+    font-weight: 800;
+    letter-spacing: 5px;
+    margin-bottom: 10px;
+    color: #F5F5DC; /* Heading color */
+}
+
+.content h1 i {
+    color: #4caf50; /* Sirf Cart Icon Spotify Green hoga */
+}
+
+.content p {
+    font-size: 20px;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.btn {
+    display: inline-block;
+    background: #4caf50; /* Spotify Green */
+    color: #191414; /* Black text on green button */
+    padding: 15px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: 0.3s;
+    border: 2px solid transparent;
+}
+
+.btn:hover {
+    background: transparent;
+    color: #F5F5DC;
+    border: 2px solid #F5F5DC;
+    transform: scale(1.05);
+}
